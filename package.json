@@ -2,7 +2,7 @@
     "name": "last-warning-bot",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "src/app.js",
     "devDependencies": {
         "eslint": "^8.0.1",
         "eslint-config-prettier": "^9.0.0",
