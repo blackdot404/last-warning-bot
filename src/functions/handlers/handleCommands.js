@@ -30,14 +30,14 @@ module.exports = (client) => {
 
         try {
             console.log(
-                'Importando commandos (/) da aplicação para o servidor Discord.',
+                'Importando comandos (/) da aplicação para o servidor Discord.',
             );
             await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
                 body: client.commandArray,
             });
 
             console.log(
-                'Importação dos commandos (/) da aplicação efetuada com sucesso.',
+                'Importação dos comandos (/) da aplicação efetuada com sucesso.',
             );
         } catch (error) {
             console.error(error);
