@@ -36,6 +36,8 @@ module.exports = (client) => {
                 body: client.commandArray,
             });
 
+            console.log(client.commandArray);
+
             console.log(
                 'Importação dos comandos (/) da aplicação efetuada com sucesso.',
             );
