@@ -3,34 +3,57 @@ const UserGuild = require('../../models/UserGuild');
 
 module.exports = {
     name: 'guildMemberAdd',
-    once: true,
-    async execute(user, guild, client) {
+    async execute(member) {
         /*
             'user' representa o usuario acessando a servidor discord
             'guild' representa o servidor discord
             'client' representa o bot discord
         */
-        const data = await UserGuild.findOne({ Guild: client.guild.id });
+
+        const data = await UserGuild.findOne({ Guild: member.guild.id });
         if (!data) return;
+        if (member.user.bot) return;
         const channel = data.Channel;
         const roleChannel = data.RoleChannel;
         const msg = data.Msg;
+        const recruitChannel = data.RecruitChannel;
+        const classChannel = data.ClassChannel;
+
+        const { user, guild } = member;
 
         const welcomeChannel = await guild.channels.cache.get(channel);
 
         const welcomeEmbed = new EmbedBuilder()
             .setTitle(':mega: Bem vindo(a) :mega:')
             .setDescription(
-                `**${user.username}**, bem-vindo(a) ao servidor **${guild.name}**!
-                \nUma palavra rápida do chefe da guilda: **${msg}**
+                `**${member}**, bem-vindo(a) ao servidor **${guild.name}**!
+                \nUma palavra rápida do chefe da guilda: 
+                \n**${msg}**
                 \nAtualmente estamos com **${guild.memberCount} membros**.
-                \nNão esqueça de ler as <#${roleChannel}>
+                \nVeja também :point_down:
                 \n`,
             )
-            .setColor(16312092)
+            .addFields(
+                {
+                    name: ':scroll:Leia as Regras:',
+                    value: `<#${roleChannel}>`,
+                    inline: true,
+                },
+                {
+                    name: ':handshake:Se apresente:',
+                    value: `<#${recruitChannel}>`,
+                    inline: true,
+                },
+                {
+                    name: ':bow_and_arrow:Qual sua Classe?',
+                    value: `<#${classChannel}>`,
+                    inline: true,
+                },
+            )
+            .setColor(0x0099ff)
             .setFooter({
-                text: client.user.username,
-                iconURL: client.user.displayAvatarURL(),
+                text: `user: ${user.tag} | id: ${user.id}`,
+                iconURL: user.displayAvatarURL(),
             })
             .setTimestamp()
             .setThumbnail(user.displayAvatarURL());

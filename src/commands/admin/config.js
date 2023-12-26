@@ -1,4 +1,8 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const {
+    SlashCommandBuilder,
+    PermissionFlagsBits,
+    EmbedBuilder,
+} = require('discord.js');
 const UserGuild = require('../../models/UserGuild');
 
 module.exports = {
@@ -12,10 +16,22 @@ module.exports = {
                 .setDescription('Canal de mensagem de boas vidas.')
                 .setRequired(true),
         )
-        .addStringOption((option) =>
+        .addChannelOption((option) =>
             option
-                .setName('mensagem')
-                .setDescription('Seta a mensagem de boas vindas.')
+                .setName('canal-regras')
+                .setDescription('Canal com as regras do servidor.')
+                .setRequired(true),
+        )
+        .addChannelOption((option) =>
+            option
+                .setName('canal-recruit')
+                .setDescription('Canal para recrutamento do novato.')
+                .setRequired(true),
+        )
+        .addChannelOption((option) =>
+            option
+                .setName('canal-classes')
+                .setDescription('Canal para o novato escolher sua classe.')
                 .setRequired(true),
         )
         .addRoleOption((option) =>
@@ -26,10 +42,10 @@ module.exports = {
                 )
                 .setRequired(true),
         )
-        .addChannelOption((option) =>
+        .addStringOption((option) =>
             option
-                .setName('canal-regras')
-                .setDescription('Canal com as regras do servidor.')
+                .setName('mensagem')
+                .setDescription('Seta a mensagem de boas vindas.')
                 .setRequired(true),
         ),
     async execute(interaction) {
@@ -38,6 +54,18 @@ module.exports = {
         const Msg = options.getString('mensagem');
         const Role = options.getRole('cargo');
         const RoleChannel = options.getChannel('canal-regras');
+        const RecruitChannel = options.getChannel('canal-recruit');
+        const ClassChannel = options.getChannel('canal-classes');
+
+        const embedSucess = new EmbedBuilder()
+            .setDescription('🥰 Configuração inicial efetuada!!')
+            .setColor(0x0099ff);
+
+        const embedFailed = new EmbedBuilder()
+            .setDescription(
+                '🤫 Você não possui a permissão necessaria para esse procedimento.',
+            )
+            .setColor(10944512);
 
         if (
             !interaction.guild.members.me.permissions.has(
@@ -45,8 +73,7 @@ module.exports = {
             )
         ) {
             interaction.reply({
-                content:
-                    'Você não possui a permissão necessaria para esse procedimento.🤫',
+                embeds: [embedFailed],
                 ephemeral: true,
             });
         }
@@ -59,6 +86,8 @@ module.exports = {
                 Guild: interaction.guild.id,
                 Channel: Channel.id,
                 RoleChannel: RoleChannel.id,
+                RecruitChannel: RecruitChannel.id,
+                ClassChannel: ClassChannel.id,
                 Msg: Msg,
                 Role: Role.id,
             });
@@ -67,6 +96,8 @@ module.exports = {
                 {
                     Channel: Channel.id,
                     RoleChannel: RoleChannel.id,
+                    RecruitChannel: RecruitChannel.id,
+                    ClassChannel: ClassChannel.id,
                     Msg: Msg,
                     Role: Role.id,
                 },
@@ -74,7 +105,7 @@ module.exports = {
             );
         }
         interaction.reply({
-            content: 'Configuração inicial efetuada!! 🥰',
+            embeds: [embedSucess],
             ephemeral: true,
         });
     },

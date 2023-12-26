@@ -1,9 +1,21 @@
 require('dotenv').config();
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const {
+    Client,
+    Collection,
+    GatewayIntentBits,
+    Partials,
+} = require('discord.js');
 const fs = require('fs');
 const sequelize = require('./database/connection');
 
-const client = new Client({ intents: GatewayIntentBits.Guilds });
+const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits;
+const { User, Message, GuildMember, ThreadMember, Channel } = Partials;
+
+const client = new Client({
+    intents: [Guilds, GuildMembers, GuildMessages],
+    partials: [User, Message, GuildMember, ThreadMember, Channel],
+});
+
 client.commands = new Collection();
 client.buttons = new Collection();
 client.commandArray = [];

@@ -13,13 +13,13 @@ module.exports = {
             .setColor(0x0099ff)
             .setTitle('🏓 Pong')
             .setDescription(
-                `Latencia API: ${client.ws.ping}\nClient Ping: ${
+                `Latencia API: ${client.ws.ping}ms.\nClient Ping: ${
                     message.createdTimestamp - interaction.createdTimestamp
-                }`,
+                }ms.`,
             )
             .setFooter({
-                text: client.user.username,
-                iconURL: client.user.displayAvatarURL(),
+                text: interaction.user.username,
+                iconURL: interaction.user.displayAvatarURL(),
             })
             .setTimestamp();
 
