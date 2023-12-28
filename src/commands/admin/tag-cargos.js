@@ -10,7 +10,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('tag-cargos')
         .setDescription('Configura algumas informações basicas para o bot.')
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
         .addStringOption((option) =>
             option
                 .setName('id-emoji')
