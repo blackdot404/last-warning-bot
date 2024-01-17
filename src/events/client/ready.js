@@ -1,7 +1,31 @@
+const { ActivityType } = require('discord.js');
 module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
         console.log(`Bot ${client.user.tag} online!`);
+
+        const status = [
+            {
+                name: 'utilize /help saiba mais',
+                type: ActivityType.Playing,
+            },
+            {
+                name: 'a gameplay criminosa do Nariz',
+                type: ActivityType.Watching,
+            },
+
+            {
+                name: 'Ronphi está online.',
+                type: ActivityType.Streaming,
+                url: 'https://www.twitch.tv/ronphi',
+            },
+        ];
+
+        setInterval(() => {
+            const random = Math.floor(Math.random() * status.length);
+
+            client.user.setActivity(status[random]);
+        }, 10000);
     },
 };
