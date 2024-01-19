@@ -12,6 +12,6 @@ const GroupMessage = sequelize.define('GroupMessage', {
     idGroupMessage: DataTypes.STRING,
 });
 
-UserReacts.belongsTo(UserReacts, { foreignKey: 'idGroup' });
+GroupMessage.belongsTo(UserReacts, { foreignKey: 'idGroup' });
 
 module.exports = GroupMessage;

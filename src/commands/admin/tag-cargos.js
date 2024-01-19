@@ -9,7 +9,7 @@ const UserGuild = require('../../models/UserGuild');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('tag-cargos')
-        .setDescription('Configura algumas informações basicas para o bot.')
+        .setDescription('Configura o sistema de cargo do bot.')
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
         .addStringOption((option) =>
             option

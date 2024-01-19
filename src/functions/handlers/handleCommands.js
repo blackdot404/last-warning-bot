@@ -22,17 +22,14 @@ module.exports = (client) => {
             }
         }
         const clientId = '1175807146324144180';
-        const guildId = '861781344552091658';
 
-        const rest = new REST({ version: '10' }).setToken(
-            process.env.BOT_TOKEN,
-        );
+        const rest = new REST().setToken(process.env.BOT_TOKEN);
 
         try {
             console.log(
                 'Importando comandos (/) da aplicação para o servidor Discord.',
             );
-            await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+            await rest.put(Routes.applicationCommands(clientId), {
                 body: client.commandArray,
             });
 
