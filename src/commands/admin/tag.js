@@ -8,27 +8,38 @@ const UserGuild = require('../../models/UserGuild');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('tag-cargos')
+        .setName('tag')
         .setDescription('Configura o sistema de cargo do bot.')
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
-        .addStringOption((option) =>
-            option
-                .setName('id-emoji')
-                .setDescription(
-                    'ID do Emoji que será inserido no canal de Classes.',
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName('add')
+                .setDescription('Adiciona emoji ao sistema de reação.')
+                .addStringOption((option) =>
+                    option
+                        .setName('emoji')
+                        .setDescription('Insira o ID do emoji')
+                        .setRequired(true),
                 )
-                .setRequired(true),
-        )
-        .addRoleOption((option) =>
-            option
-                .setName('id-cargo')
-                .setDescription(
-                    'ID do cargo que irá receber quem reagir com esse Emoji.',
+                .addRoleOption((option) =>
+                    option
+                        .setName('cargo')
+                        .setDescription(
+                            'Insira o cargo que irá receber esse emoji',
+                        )
+                        .setRequired(true),
                 )
-                .setRequired(true),
+                .addIntegerOption((option) =>
+                    option
+                        .setName('id-grupo')
+                        .setDescription(
+                            'Inserir um id para agrupar o sistema de tag',
+                        )
+                        .setRequired(true),
+                ),
         ),
     async execute(interaction) {
-        const { options } = interaction;
+        const subcommand = interaction.options.getSubcommand;
         const idEmoji = options.getString('id-emoji');
         const idRole = options.getRole('id-cargo');
 
