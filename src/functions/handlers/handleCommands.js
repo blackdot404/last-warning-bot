@@ -25,6 +25,12 @@ module.exports = (client) => {
 
         const rest = new REST().setToken(process.env.BOT_TOKEN);
 
+        // deleta os comandos para depois imputa novamente
+        await rest
+            .put(Routes.applicationCommands(clientId), { body: [] })
+            .then(() => console.log('Todos os comandos deletados com sucesso.'))
+            .catch(console.error);
+
         try {
             console.log(
                 'Importando comandos (/) da aplicação para o servidor Discord.',

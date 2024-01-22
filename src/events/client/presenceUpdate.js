@@ -1,8 +1,8 @@
 module.exports = {
     name: 'presenceUpdate',
     once: true,
-    async execute(client, newPresence) {
+    async execute(oldPresence, newPresence) {
+        console.log([oldPresence]);
         console.log([newPresence]);
-        console.log([client]);
     },
 };

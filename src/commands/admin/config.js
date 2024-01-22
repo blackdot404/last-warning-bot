@@ -90,7 +90,20 @@ module.exports = {
                 ClassChannel: ClassChannel.id,
                 Msg: Msg,
                 Role: Role.id,
-            });
+            })
+                .then(() => {
+                    interaction.reply({
+                        embeds: [embedSucess],
+                        ephemeral: true,
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    interaction.reply({
+                        embeds: [embedFailed],
+                        ephemeral: true,
+                    });
+                });
         } else {
             await UserGuild.update(
                 {
@@ -102,11 +115,20 @@ module.exports = {
                     Role: Role.id,
                 },
                 { where: { Guild: interaction.guild.id } },
-            );
+            )
+                .then(() => {
+                    interaction.reply({
+                        embeds: [embedSucess],
+                        ephemeral: true,
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    interaction.reply({
+                        embeds: [embedFailed],
+                        ephemeral: true,
+                    });
+                });
         }
-        interaction.reply({
-            embeds: [embedSucess],
-            ephemeral: true,
-        });
     },
 };
