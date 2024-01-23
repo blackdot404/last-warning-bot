@@ -1,3 +1,6 @@
+/* eslint no-case-declarations: "error"*/
+/* eslint-env es6*/
+
 const {
     SlashCommandBuilder,
     PermissionFlagsBits,
@@ -10,7 +13,6 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('tag')
         .setDescription('Configura o sistema de cargo do bot.')
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
         .addSubcommand((subcommand) =>
             subcommand
                 .setName('add')
@@ -44,7 +46,7 @@ module.exports = {
                 .setDescription('Remove emoji do sistema de reação.')
                 .addStringOption((option) =>
                     option
-                        .setName('emoji')
+                        .setName('idemoji')
                         .setDescription('Insira o ID do emoji')
                         .setRequired(true),
                 ),
@@ -57,11 +59,23 @@ module.exports = {
                 )
                 .addIntegerOption((option) =>
                     option
-                        .setName('grupo')
+                        .setName('idgrupo')
                         .setDescription('Insira o grupo que deseja ativar')
                         .setRequired(true),
                 ),
-        ),
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName('ttl')
+                .setDescription('Testa o retorno userguilda')
+                .addStringOption((option) =>
+                    option
+                        .setName('emoji')
+                        .setDescription('Insira o ID do emoji')
+                        .setRequired(true),
+                ),
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
         const idEmoji = interaction.options.getString('emoji');
@@ -77,85 +91,87 @@ module.exports = {
             attributes: ['idEmoji'],
             where: { idEmoji: idEmoji },
         });
-
-        const embedFailed = new EmbedBuilder()
-            .setDescription(
-                '🤖 Você ainda não configurou o bot, use o comando /config',
-            )
-            .setColor(10944512);
-
-        if (!userGuild) {
-            interaction.reply({
-                embeds: [embedFailed],
-            });
-        }
-
         switch (subcommand) {
-            case 'add':
-                {
-                    const embedFailed2 = new EmbedBuilder()
+            case 'add': {
+                if (userGuild === null) {
+                    const embedFailed = new EmbedBuilder()
                         .setDescription(
-                            '👎 Você está tentando inserir um Emoji que já está cadastrado.',
+                            '🤖 Você ainda não configurou o bot, use o comando /config',
                         )
                         .setColor(10944512);
-                    const embedSucess = new EmbedBuilder()
-                        .setDescription(
-                            '🌌 Emoji & Cargo cadastrado com sucesso!!',
-                        )
-                        .setColor(0x0099ff);
-                    if (userReact) {
-                        interaction.reply({
-                            embeds: [embedFailed2],
-                        });
-                    }
 
-                    await UserReacts.create({
-                        idEmoji: idEmoji,
-                        idRole: idRole,
-                        idGroup: idGroup,
-                        idGuild: userGuild.Guild,
-                        idClassChannel: userGuild.ClassChannel,
-                    })
-                        .then(() => {
-                            interaction.reply({
-                                embeds: [embedSucess],
-                            });
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                            interaction.reply({
-                                embeds: [embedFailed2],
-                            });
-                        });
+                    interaction.reply({
+                        embeds: [embedFailed],
+                    });
+                    break;
                 }
-                break;
-            case 'rm':
-                {
-                    const embedFailed2 = new EmbedBuilder()
-                        .setDescription(
-                            '👎 Esse emoji não está cadastrado no sistema.',
-                        )
-                        .setColor(10944512);
-                    const embedSucess = new EmbedBuilder()
-                        .setDescription('🧺 Emoji apagado com sucesso.')
-                        .setColor(0x0099ff);
+                const embedFailed2 = new EmbedBuilder()
+                    .setDescription(
+                        '👎 Você está tentando inserir um Emoji que já está cadastrado.',
+                    )
+                    .setColor(10944512);
+                const embedSucess = new EmbedBuilder()
+                    .setDescription('🌌 Emoji & Cargo cadastrado com sucesso!!')
+                    .setColor(0x0099ff);
+                if (userReact) {
+                    interaction.reply({
+                        embeds: [embedFailed2],
+                    });
+                }
 
-                    if (!userReact) {
-                        interaction.reply({
-                            embeds: [embedFailed2],
-                        });
-                    }
-
-                    await UserReacts.destroy({
-                        where: { idEmoji: idEmoji },
-                    }).then(() => {
+                await UserReacts.create({
+                    idEmoji: idEmoji.id,
+                    idRole: idRole.id,
+                    idGroup: idGroup,
+                    idGuild: userGuild.Guild,
+                    idClassChannel: userGuild.ClassChannel,
+                    idMessageReaction: null,
+                })
+                    .then(() => {
                         interaction.reply({
                             embeds: [embedSucess],
                         });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        interaction.reply({
+                            embeds: [embedFailed2],
+                        });
+                    });
+                break;
+            }
+            case 'rm': {
+                const embedFailed3 = new EmbedBuilder()
+                    .setDescription(
+                        '👎 Esse emoji não está cadastrado no sistema.',
+                    )
+                    .setColor(10944512);
+                const embedSucess2 = new EmbedBuilder()
+                    .setDescription('🧺 Emoji apagado com sucesso.')
+                    .setColor(0x0099ff);
+
+                if (!userReact) {
+                    interaction.reply({
+                        embeds: [embedFailed3],
                     });
                 }
-                break;
 
+                await UserReacts.destroy({
+                    where: { idEmoji: idEmoji },
+                }).then(() => {
+                    interaction.reply({
+                        embeds: [embedSucess2],
+                    });
+                });
+                break;
+            }
+
+            case 'ttl':
+                interaction.reply({
+                    content: `Teste: ${idEmoji}`,
+                });
+
+                break;
             default:
                 break;
         }

@@ -7,8 +7,8 @@ module.exports = {
 
         const status = [
             {
-                name: 'utilize /help saiba mais',
-                type: ActivityType.Playing,
+                name: '📌 /help saiba mais',
+                type: ActivityType.Custom,
             },
             {
                 name: 'a gameplay criminosa do Nariz',

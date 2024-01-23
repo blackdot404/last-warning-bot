@@ -26,21 +26,21 @@ module.exports = (client) => {
         const rest = new REST().setToken(process.env.BOT_TOKEN);
 
         // deleta os comandos para depois imputa novamente
-        await rest
-            .put(Routes.applicationCommands(clientId), { body: [] })
-            .then(() => console.log('Todos os comandos deletados com sucesso.'))
-            .catch(console.error);
+        // await rest
+        //     .put(Routes.applicationCommands(clientId), { body: [] })
+        //     .then(() => console.log('Todos os comandos deletados com sucesso.'))
+        //     .catch(console.error);
 
         try {
             console.log(
-                'Importando comandos (/) da aplicação para o servidor Discord.',
+                '[DISCORD-API]: Importando comandos (/) da aplicação para o servidor Discord.',
             );
             await rest.put(Routes.applicationCommands(clientId), {
                 body: client.commandArray,
             });
 
             console.log(
-                'Importação dos comandos (/) da aplicação efetuada com sucesso.',
+                '[DISCORD-API]: Importação dos comandos (/) da aplicação efetuada com sucesso.',
             );
         } catch (error) {
             console.error(error);

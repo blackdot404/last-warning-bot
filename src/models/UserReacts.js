@@ -7,6 +7,7 @@ const UserReacts = sequelize.define('UserReacts', {
     idGroup: DataTypes.INTEGER,
     idGuild: DataTypes.STRING,
     idClassChannel: DataTypes.STRING,
+    idMessageReaction: DataTypes.STRING,
 });
 
 module.exports = UserReacts;

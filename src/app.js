@@ -8,12 +8,33 @@ const {
 const fs = require('fs');
 const sequelize = require('./database/connection');
 
-const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits;
-const { User, Message, GuildMember, ThreadMember, Channel } = Partials;
+const {
+    Guilds,
+    GuildMembers,
+    GuildMessages,
+    GuildMessageTyping,
+    GuildMessageReactions,
+    DirectMessageReactions,
+    GuildWebhooks,
+    GuildIntegrations,
+    GuildEmojisAndStickers,
+} = GatewayIntentBits;
+const { User, Message, GuildMember, ThreadMember, Channel, Reaction } =
+    Partials;
 
 const client = new Client({
-    intents: [Guilds, GuildMembers, GuildMessages],
-    partials: [User, Message, GuildMember, ThreadMember, Channel],
+    intents: [
+        Guilds,
+        GuildMembers,
+        GuildMessages,
+        GuildMessageTyping,
+        GuildMessageReactions,
+        DirectMessageReactions,
+        GuildWebhooks,
+        GuildIntegrations,
+        GuildEmojisAndStickers,
+    ],
+    partials: [User, Message, GuildMember, ThreadMember, Channel, Reaction],
 });
 
 client.commands = new Collection();
@@ -38,7 +59,7 @@ client.login(process.env.BOT_TOKEN);
     await sequelize
         .sync({})
         .then(() =>
-            console.log('[DATABASE] CONEXÃO COM BANCO DE DADOS EFETUADA.'),
+            console.log('[DATABASE]: CONEXÃO COM BANCO DE DADOS EFETUADA.'),
         )
         .catch((error) => console.log(`[DATABASE] Error: ${error}`));
 })();
