@@ -162,7 +162,7 @@ module.exports = {
                     .setColor(10944512);
                 const embedSucess = new EmbedBuilder()
                     .setDescription('🧺 Emoji apagado com sucesso.')
-                    .setColor(0x0099ff);home;
+                    .setColor(0x0099ff);
 
                 if (!userReact) {
                     interaction.reply({
