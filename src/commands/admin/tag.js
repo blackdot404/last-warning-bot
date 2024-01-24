@@ -46,7 +46,7 @@ module.exports = {
                 .setDescription('Remove emoji do sistema de reação.')
                 .addStringOption((option) =>
                     option
-                        .setName('idemoji')
+                        .setName('emoji')
                         .setDescription('Insira o ID do emoji')
                         .setRequired(true),
                 ),
@@ -59,7 +59,7 @@ module.exports = {
                 )
                 .addIntegerOption((option) =>
                     option
-                        .setName('idgrupo')
+                        .setName('grupo')
                         .setDescription('Insira o grupo que deseja ativar')
                         .setRequired(true),
                 ),
@@ -78,21 +78,24 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
-        const idEmoji = interaction.options.getString('emoji');
-        const idRole = interaction.options.getRole('cargo');
-        const idGroup = interaction.options.getInteger('grupo');
 
         const userGuild = await UserGuild.findOne({
             attributes: ['Guild', 'ClassChannel'],
             where: { Guild: interaction.guild.id },
         });
 
-        const userReact = await UserReacts.findOne({
-            attributes: ['idEmoji'],
-            where: { idEmoji: idEmoji },
-        });
         switch (subcommand) {
             case 'add': {
+                const idEmoji = interaction.options.getString('emoji');
+                const idRole = interaction.options.getRole('cargo');
+                const idGroup = interaction.options.getInteger('grupo');
+                const emojiSplit = idEmoji.replace(/[<@>]/g, '').split(':');
+
+                const userReact = await UserReacts.findOne({
+                    attributes: ['idEmoji'],
+                    where: { idEmoji: emojiSplit[2] },
+                });
+
                 if (userGuild === null) {
                     const embedFailed = new EmbedBuilder()
                         .setDescription(
@@ -105,7 +108,7 @@ module.exports = {
                     });
                     break;
                 }
-                const embedFailed2 = new EmbedBuilder()
+                const embedFailed = new EmbedBuilder()
                     .setDescription(
                         '👎 Você está tentando inserir um Emoji que já está cadastrado.',
                     )
@@ -113,14 +116,16 @@ module.exports = {
                 const embedSucess = new EmbedBuilder()
                     .setDescription('🌌 Emoji & Cargo cadastrado com sucesso!!')
                     .setColor(0x0099ff);
+
                 if (userReact) {
                     interaction.reply({
-                        embeds: [embedFailed2],
+                        embeds: [embedFailed],
                     });
                 }
 
                 await UserReacts.create({
-                    idEmoji: idEmoji.id,
+                    idEmoji: emojiSplit[2],
+                    strName: emojiSplit[1],
                     idRole: idRole.id,
                     idGroup: idGroup,
                     idGuild: userGuild.Guild,
@@ -135,43 +140,54 @@ module.exports = {
                     .catch((err) => {
                         console.log(err);
                         interaction.reply({
-                            embeds: [embedFailed2],
+                            content:
+                                'Erro na importação por gentileza procurar um administrador.',
                         });
                     });
                 break;
             }
             case 'rm': {
-                const embedFailed3 = new EmbedBuilder()
+                const idEmoji = interaction.options.getString('emoji');
+                const emojiSplit = idEmoji.replace(/[<@>]/g, '').split(':');
+
+                const userReact = await UserReacts.findOne({
+                    attributes: ['idEmoji'],
+                    where: { idEmoji: emojiSplit[2] },
+                });
+
+                const embedFailed = new EmbedBuilder()
                     .setDescription(
                         '👎 Esse emoji não está cadastrado no sistema.',
                     )
                     .setColor(10944512);
-                const embedSucess2 = new EmbedBuilder()
+                const embedSucess = new EmbedBuilder()
                     .setDescription('🧺 Emoji apagado com sucesso.')
-                    .setColor(0x0099ff);
+                    .setColor(0x0099ff);home;
 
                 if (!userReact) {
                     interaction.reply({
-                        embeds: [embedFailed3],
+                        embeds: [embedFailed],
                     });
                 }
 
                 await UserReacts.destroy({
-                    where: { idEmoji: idEmoji },
+                    where: { idEmoji: emojiSplit[2] },
                 }).then(() => {
                     interaction.reply({
-                        embeds: [embedSucess2],
+                        embeds: [embedSucess],
                     });
                 });
                 break;
             }
 
-            case 'ttl':
+            case 'ttl': {
+                const idEmoji = interaction.options.getString('emoji');
                 interaction.reply({
                     content: `Teste: ${idEmoji}`,
                 });
 
                 break;
+            }
             default:
                 break;
         }

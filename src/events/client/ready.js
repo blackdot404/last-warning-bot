@@ -3,7 +3,7 @@ module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
-        console.log(`Bot ${client.user.tag} online!`);
+        console.log(`[INSTANCIA]: ${client.user.tag} online!`);
 
         const status = [
             {
