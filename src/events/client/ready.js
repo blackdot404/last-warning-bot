@@ -11,7 +11,7 @@ module.exports = {
                 type: ActivityType.Custom,
             },
             {
-                name: 'a gameplay criminosa do Nariz',
+                name: 'a gameplay criminosa do wells',
                 type: ActivityType.Watching,
             },
 

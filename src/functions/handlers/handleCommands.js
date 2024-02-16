@@ -23,7 +23,9 @@ module.exports = (client) => {
         }
         const clientId = '1175807146324144180';
 
-        const rest = new REST().setToken(process.env.BOT_TOKEN);
+        const rest = new REST({ version: '10' }).setToken(
+            process.env.BOT_TOKEN,
+        );
 
         // deleta os comandos para depois imputa novamente
         // await rest

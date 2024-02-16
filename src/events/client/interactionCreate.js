@@ -18,6 +18,24 @@ module.exports = {
                     ephemeral: true,
                 });
             }
+        } else if (interaction.isButton()) {
+            const { buttons } = client;
+            const { customId } = interaction;
+            const button = buttons.get(customId);
+            if (!button) {
+                return new Error('Não a informações sobre esse botão.');
+            }
+
+            try {
+                await button.execute(interaction, client);
+            } catch (error) {
+                console.log(error);
+                await interaction.reply({
+                    content:
+                        'Houve um problema para executar o comando, fale com um administrador.',
+                    ephemeral: true,
+                });
+            }
         }
     },
 };

@@ -54,12 +54,13 @@ for (const folder of functionFolders) {
 
 client.handleEvents();
 client.handleCommands();
+client.handleComponents();
 client.login(process.env.BOT_TOKEN);
 (async () => {
     await sequelize
         .sync({})
         .then(() =>
-            console.log('[DATABASE]: CONEXÃO COM BANCO DE DADOS EFETUADA.'),
+            console.log('[DATABASE]: Conexão com o banco de dados efetuada.'),
         )
         .catch((error) => console.log(`[DATABASE] Error: ${error}`));
 })();

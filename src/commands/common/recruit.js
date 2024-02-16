@@ -2,8 +2,8 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('teste')
-        .setDescription('Teste in test'),
+        .setName('recruit')
+        .setDescription('Recrutamento de novos players.'),
     async execute(client) {
         const reChannel = await client.channel.send('Teste');
 
