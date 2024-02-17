@@ -105,10 +105,11 @@ module.exports = {
             .setThumbnail(interaction.user.displayAvatarURL());
 
         const embedSucess = new EmbedBuilder()
-            .setDescription('🌌 Formulario de recrutamento enviado!!')
+            .setDescription(
+                `🌌 Formulario de recrutamento enviado!!
+                \nNão esqueça de acessar a sala de voz de <@1172035125274492928> para que possamos falar com você!`,
+            )
             .setColor(0x0099ff);
-
-        await interaction.member.setNickname(nickname);
 
         channel.send({ embeds: [recruitEmbed] });
 
@@ -116,6 +117,8 @@ module.exports = {
             embeds: [embedSucess],
             ephemeral: true,
         });
+
+        await interaction.member.setNickname(nickname);
 
         // console.log(reChannel.id);
     },

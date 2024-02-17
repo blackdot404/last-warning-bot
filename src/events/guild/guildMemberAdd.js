@@ -18,7 +18,7 @@ module.exports = {
         const channel = data.Channel;
         const roleChannel = data.RoleChannel;
         const msg = data.Msg;
-        const recruitChannel = data.RecruitChannel;
+        // const recruitChannel = data.RecruitChannel;
         const classChannel = data.ClassChannel;
 
         const { user, guild } = member;
@@ -47,7 +47,7 @@ module.exports = {
                 },
                 {
                     name: ':handshake:Se apresente:',
-                    value: `<#${recruitChannel}>`,
+                    value: '<#1208259361013633064>',
                     inline: true,
                 },
                 {

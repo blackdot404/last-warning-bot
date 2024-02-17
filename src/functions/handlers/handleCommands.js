@@ -21,7 +21,7 @@ module.exports = (client) => {
                 );
             }
         }
-        const clientId = '1175807146324144180';
+        const clientId = process.env.BOT_ID;
 
         const rest = new REST({ version: '10' }).setToken(
             process.env.BOT_TOKEN,
