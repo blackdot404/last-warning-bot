@@ -8,6 +8,8 @@ const {
     ButtonBuilder,
 } = require('discord.js');
 const Canvas = require('@napi-rs/canvas');
+const path = require('path');
+
 const UserGuild = require('../../models/UserGuild');
 
 module.exports = {
@@ -38,16 +40,18 @@ module.exports = {
             .setColor(0x0099ff);
 
         const channel = client.channels.cache.get(data.RoleChannel);
+        const pathImage = path.join(
+            '/home/blacks/projects/last-warning-bot/src/img',
+            'rules.png',
+        );
         const canvas = Canvas.createCanvas(692, 317);
         const context = canvas.getContext('2d');
-        const background = await Canvas.loadImage(
-            'https://i.imgur.com/qjdcgI7.png',
-        );
+        const background = await Canvas.loadImage(pathImage);
 
         context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
         const attachment = new AttachmentBuilder(await canvas.encode('png'), {
-            name: 'qjdcgI7.png',
+            name: 'rules.png',
         });
 
         const button = new ButtonBuilder()
@@ -70,7 +74,7 @@ module.exports = {
                             \n- **Divulgação**
                             \nQualquer tipo de divulgação não é permitida neste servidor, serão atendidos com sua remoção temporária ou permanente deste servidor.
                             \n- **Administração do Servidor**
-                            \nO servidor é composto pelo <@&877965190061248532> e o <@&1170624993835634721>, os maiores cargos. Cada um tem sua jurisdição no servidor, portanto, respeite.
+                            \nO servidor é composto pelo <@&1170782639880405102> e o <@&1170624993835634721>, os maiores cargos. Cada um tem sua jurisdição no servidor, portanto, respeite.
                             \nSe você concorda com todas as regras listadas clique no botão abaixo, para que o recrutamento seja liberado.
                             `);
 

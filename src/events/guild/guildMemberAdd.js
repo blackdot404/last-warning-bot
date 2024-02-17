@@ -10,7 +10,9 @@ module.exports = {
             'client' representa o bot discord
         */
 
-        const data = await UserGuild.findOne({ Guild: member.guild.id });
+        const data = await UserGuild.findOne({
+            where: { Guild: member.guild.id },
+        });
         if (!data) return;
         if (member.user.bot) return;
         const channel = data.Channel;
@@ -22,6 +24,10 @@ module.exports = {
         const { user, guild } = member;
 
         const welcomeChannel = await guild.channels.cache.get(channel);
+
+        // ativar quando for para a last warning
+        const rule = guild.roles.cache.get('1187154235847102597');
+        member.roles.add(rule);
 
         const welcomeEmbed = new EmbedBuilder()
             .setTitle(':mega: Bem vindo(a) :mega:')

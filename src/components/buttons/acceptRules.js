@@ -10,7 +10,7 @@ module.exports = {
             where: { Guild: interaction.guild.id },
         });
 
-        if (data === null) return;
+        if (!data) return;
 
         const rule = interaction.guild.roles.cache.get(data.Role);
         if (
