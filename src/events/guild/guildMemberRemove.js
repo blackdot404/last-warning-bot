@@ -13,8 +13,9 @@ module.exports = {
 
         const { user, guild } = member;
 
-        const leaveChannel =
-            await guild.channels.cache.get('877964737634263101');
+        const leaveChannel = await guild.channels.cache.get(
+            '1170638565760319518',
+        );
 
         const leaveEmbed = new EmbedBuilder()
             .setDescription(`:mega: O ${user.username} saiu da guilda...`)

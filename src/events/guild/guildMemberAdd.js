@@ -26,7 +26,7 @@ module.exports = {
         const welcomeChannel = await guild.channels.cache.get(channel);
 
         // ativar quando for para a last warning
-        const rule = guild.roles.cache.get('1187154235847102597');
+        const rule = guild.roles.cache.get('1170630426868584508');
         member.roles.add(rule);
 
         const welcomeEmbed = new EmbedBuilder()
