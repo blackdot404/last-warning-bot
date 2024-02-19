@@ -64,17 +64,6 @@ module.exports = {
                         .setRequired(true),
                 ),
         )
-        .addSubcommand((subcommand) =>
-            subcommand
-                .setName('ttl')
-                .setDescription('Testa o retorno userguilda')
-                .addStringOption((option) =>
-                    option
-                        .setName('emoji')
-                        .setDescription('Insira o ID do emoji')
-                        .setRequired(true),
-                ),
-        )
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
@@ -180,14 +169,6 @@ module.exports = {
                 break;
             }
 
-            case 'ttl': {
-                const idEmoji = interaction.options.getString('emoji');
-                interaction.reply({
-                    content: `Teste: ${idEmoji}`,
-                });
-
-                break;
-            }
             default:
                 break;
         }

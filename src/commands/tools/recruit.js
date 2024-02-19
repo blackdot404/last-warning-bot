@@ -107,11 +107,15 @@ module.exports = {
         const embedSucess = new EmbedBuilder()
             .setDescription(
                 `🌌 Formulario de recrutamento enviado!!
-                \nNão esqueça de acessar a sala de voz de <@1172035125274492928> para que possamos falar com você!`,
+                \nNosso horário de recrutamento é das 18hrs a 22hrs.
+                \nNão esqueça de acessar a sala de voz de <#1172035125274492928> para que possamos falar com você!`,
             )
             .setColor(0x0099ff);
 
-        channel.send({ embeds: [recruitEmbed] });
+        channel.send({
+            content: '<@&1170785965103648838>',
+            embeds: [recruitEmbed],
+        });
 
         interaction.reply({
             embeds: [embedSucess],
@@ -119,7 +123,5 @@ module.exports = {
         });
 
         await interaction.member.setNickname(nickname);
-
-        // console.log(reChannel.id);
     },
 };
