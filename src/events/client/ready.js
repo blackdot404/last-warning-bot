@@ -16,9 +16,9 @@ module.exports = {
             },
 
             {
-                name: 'Ronphi está online.',
+                name: 'Haney está online.',
                 type: ActivityType.Streaming,
-                url: 'https://www.twitch.tv/ronphi',
+                url: 'https://www.twitch.tv/haneylove',
             },
         ];
 

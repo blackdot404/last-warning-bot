@@ -24,10 +24,20 @@ module.exports = {
         const { user, guild } = member;
 
         const welcomeChannel = await guild.channels.cache.get(channel);
+        const joinedChannel = await guild.channels.cache.get(
+            '1170612058841157670',
+        );
 
         // ativar quando for para a last warning
         const rule = guild.roles.cache.get('1170630426868584508');
         member.roles.add(rule);
+
+        const joinedEmbed = new EmbedBuilder()
+            .setDescription(
+                `:mega: O ${user.username} entrou no discord da guild`,
+            )
+            .setColor(0xff001a)
+            .setTimestamp();
 
         const welcomeEmbed = new EmbedBuilder()
             .setTitle(':mega: Bem vindo(a) :mega:')
@@ -65,5 +75,6 @@ module.exports = {
             .setThumbnail(user.displayAvatarURL());
 
         welcomeChannel.send({ embeds: [welcomeEmbed] });
+        joinedChannel.send({ embeds: [joinedEmbed] });
     },
 };

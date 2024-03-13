@@ -14,7 +14,7 @@ module.exports = {
         const { user, guild } = member;
 
         const leaveChannel = await guild.channels.cache.get(
-            '1170638565760319518',
+            '1170612058841157670',
         );
 
         const leaveEmbed = new EmbedBuilder()
